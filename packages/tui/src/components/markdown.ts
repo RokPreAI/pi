@@ -182,20 +182,16 @@ export class Markdown implements Component {
 				continue;
 			}
 
-			const lineWithMargins = leftMargin + line + rightMargin;
-
 			if (bgFn) {
+				const lineWithMargins = leftMargin + line + rightMargin;
 				contentLines.push(applyBackgroundToLine(lineWithMargins, width, bgFn));
 			} else {
-				// No background - just pad to width
-				const visibleLen = visibleWidth(lineWithMargins);
-				const paddingNeeded = Math.max(0, width - visibleLen);
-				contentLines.push(lineWithMargins + " ".repeat(paddingNeeded));
+				contentLines.push(leftMargin + line);
 			}
 		}
 
 		// Add top/bottom padding (empty lines)
-		const emptyLine = " ".repeat(width);
+		const emptyLine = bgFn ? " ".repeat(width) : "";
 		const emptyLines: string[] = [];
 		for (let i = 0; i < this.paddingY; i++) {
 			const line = bgFn ? applyBackgroundToLine(emptyLine, width, bgFn) : emptyLine;
